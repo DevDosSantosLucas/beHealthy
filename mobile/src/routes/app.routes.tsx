@@ -1,0 +1,16 @@
+import React from 'react';
+import Dashboard from '../pages/Dashboard';
+
+import {createStackNavigator} from '@react-navigation/stack';
+
+const AppStack = createStackNavigator();
+
+const AuthRoutes : React.FC  = ()=>(
+    <AppStack.Navigator>
+        <AppStack.Screen 
+         options={{ headerShown:false}}
+        name ="Dashboard" component = {Dashboard}/>
+    </AppStack.Navigator>
+);
+export default AuthRoutes;
+
