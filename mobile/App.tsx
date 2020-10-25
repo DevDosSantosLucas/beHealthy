@@ -1,39 +1,48 @@
-import React from 'react';
+import React from "react";
 
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 
-import {AuthProvider} from './src/contexts/auth';
- 
+import { AuthProvider } from "./src/contexts/auth";
 
-import Routes from './src/routes/';
+import Routes from "./src/routes/";
 
-import {useFonts} from 'expo-font';
-import{Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold} from '@expo-google-fonts/nunito';
+import { StatusBar } from "react-native";
 
+import { useFonts } from "expo-font";
+import {
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+  Nunito_800ExtraBold,
+} from "@expo-google-fonts/nunito";
 
-const App: React.FC = ()=> {
-
+const App: React.FC = () => {
   const [fontsLoaded] = useFonts({
     Nunito_600SemiBold,
-     Nunito_700Bold,
-      Nunito_800ExtraBold,
+    Nunito_700Bold,
+    Nunito_800ExtraBold,
   });
-  
-  if(!fontsLoaded){
+
+  if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <NavigationContainer>
-    <AuthProvider>
-        <Routes/>
-    </AuthProvider>
-      
-  </NavigationContainer>
-  );
-}
+    <>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
 
+      />
+      <NavigationContainer>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </NavigationContainer>
+    </>
+  );
+};
 
 export default App;

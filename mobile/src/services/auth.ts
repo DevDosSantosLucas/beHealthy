@@ -1,26 +1,18 @@
-import SignIn from "../pages/SignIn";
+import api from "./api";
+import { IUser } from "../interfaces";
 
-interface Response{
-    token: string;
-    user:{
-        name: string;
-        email: string;
-        kilograms: number;
-    };
+interface Response {
+  token: string;
+  user: IUser;
 }
 
-export  function signIn(): Promise<Response>{
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({
-                token: 'dbsajkdnuiajbkcjkcjkacbkjuhdjkhfkdnakl',
-                user:{
-                    name: 'Lucas',
-                    // name: SignIn,
-                    email: 'ls@email.com',
-                    kilograms: 80.0,
-                },
-            });
-        },3000);
-    });
+interface IProps {
+  email: string;
+  password: string;
+}
+
+export async function signIn(data: IProps): Promise<Response> {
+  const request = await api.post("/users/sessions", data);
+
+  return request.data;
 }
