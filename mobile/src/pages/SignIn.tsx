@@ -42,10 +42,6 @@ export default function SignIn() {
   console.log(user);
   console.log(signIn);
 
-  // function handleSignIn(){
-  //  console.log("logar");
-  //  signIn();
-  // }
   const handleSignIn = useCallback(async (data: SignUpFormData) => {
     try {
       formRef.current?.setErrors({});
@@ -125,16 +121,6 @@ export default function SignIn() {
           <Text style={styles.nextButtonText}>Entrar</Text>
         </RectButton>
       </Form>
-
-      {/* <Text style={styles.label}>E-mail</Text>
-      <TextInput style={styles.input} value={email} onChangeText={setEmail} />
-
-      <Text style={styles.label}>Senha</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-      /> */}
 
       <RectButton style={styles.nextButtonUp} onPress={handleSignUp}>
         <Text style={styles.nextButtonText}>Cadastrar</Text>

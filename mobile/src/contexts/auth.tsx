@@ -9,6 +9,8 @@ interface User {
   name: string;
   email: string;
   kilograms: number;
+  quantityThatYouDrinked: number;
+  quantityThatYouNeedToDrink: number;
 }
 
 interface AuthContextData {

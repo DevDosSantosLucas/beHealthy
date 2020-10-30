@@ -8,4 +8,6 @@ export interface IUser {
   name: string;
   email: string;
   kilograms: number;
+  quantityThatYouDrinked: number;
+  quantityThatYouNeedToDrink: number;
 }

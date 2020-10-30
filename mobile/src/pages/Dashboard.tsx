@@ -1,172 +1,191 @@
-// import { Inter_600SemiBold } from '@expo-google-fonts/inter';
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-
-import { FontAwesome5, Entypo } from "@expo/vector-icons";
-
-// import {signIn} from '../services/auth';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text ,StyleSheet,ImageBackground} from 'react-native';
+import { useNavigation, useIsFocused } from '@react-navigation/native'
+import { RectButton } from 'react-native-gesture-handler';
 
 import { useAuth } from "../contexts/auth";
+import api from '../services/api';
 
-export default function Dashboard() {
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+
+function Dashboard() {
+  // const image ={ uri : "../images/drinking.png"}
+  const isFocused = useIsFocused();
+  const { navigate } = useNavigation();
+  const [totalConnections, setTotalConnections] = useState(0);
   const { user, signOut } = useAuth();
+  // useEffect(() => {
+  //   api.get('connections').then(response => {
+  //     const { total } = response.data;
 
-  async function handleSignOut() {
-    console.log("Deslogar");
+  //     setTotalConnections(total);
+  //   })
+  // }, [isFocused]);
+
+  function handleNavigateToGiveClassesPage() {
+    navigate('GiveClasses')
+  }
+
+  function handleNavigateToLogin() {
+    
     signOut();
+  }
+  function handleAddWater(){
+    navigate('AddDrinkWater')
+
   }
 
   return (
+    
+    
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.labelName}>Olá {user?.name}</Text>
-        <TouchableOpacity onPress={handleSignOut}>
-          <FontAwesome5 name="door-open" size={50} style={styles.iconColor} />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.labelText}>
-        Informe abaixo para que possamos sugerir a quantidade de água ideal para
-        você!
-      </Text>
 
-      <View style={styles.body}>
-        <View style={styles.bodyLeft}>
-          <Text style={styles.label}>Seu peso é ? </Text>
-          <TextInput
-            style={styles.input}
-            // value={peso}
-            // onChangeText = {setPeso}
-          />
+    <ImageBackground source={require("../images/drinking.png")} 
+      style={styles.imageBackgroung}>
+     
+     <View style={styles.TopContainer}>
+       <View>
+       <Image style = {styles.imageLogo}
+          source={require("../images/Be-Healthy.png")} 
+            />
         </View>
-        <View style={styles.bodyRight}>
-          <Text style={styles.label}>
-            Quantos Litros {"\n"}você bebeu hoje ?{" "}
-          </Text>
-          <TextInput
-            style={styles.input}
-            // value={peso}
-            // onChangeText = {setPeso}
-          />
+        <View>
+         <RectButton onPress={handleNavigateToLogin}>       
+          <FontAwesome5 name="door-open" size={50} style={styles.iconStyle} />          
+        </RectButton>
         </View>
       </View>
-      <View>
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
-          <Text style={styles.labelText}>
-            Ver quantidade de{"\n"} água recomendada
-          </Text>
-          <Entypo name="water" size={50} style={styles.iconColor} />
-        </TouchableOpacity>
-        {/* <Text style = { styles.label}>Quantidade de água recomendada:</Text> */}
-        <Text style={styles.font}>Litros</Text>
-        {/* fazer uma condicional(if ) */}
-        <Text style={styles.label}>Precisa Beber mais água</Text>
-        <Text style={styles.label}>Ótimo! Você está bem hidratado</Text>
-        {/* -------------------------- */}
-        <View style={styles.logo}>
-          <Image
-            source={require("../images/Be-Healthy.png")}
-            style={styles.image}
-          />
-        </View>
+
+      <Text style={styles.title}>
+        Olá {user?.name} {'\n'}
+        <Text style={styles.titleBold}>Já bebeu água hoje?</Text>
+      </Text>
+     
+      <View style={styles.buttonsContainer}>
+       <View style = {styles.squareFrame}>
+        <Text style = {styles.infoText}>Seu peso: {user?.kilograms}Kg{user?.quantityThatYouDrinked}
+        </Text>
+        
+        <Text style = {styles.infoText}>Você já bebeu:</Text>
+        <Text style = {styles.textInfo}>{user?.quantityThatYouDrinked}</Text>
+        <Text style = {styles.infoText}>Você precisa beber:</Text>
+          {console.log()}
+        <Text style = {styles.textInfo}>{user?.quantityThatYouNeedToDrink}</Text>
+          </View>
       </View>
+      <RectButton
+          onPress={handleAddWater}        
+          style={styles.addButton}>
+          <Entypo name="plus" size={60} color="black" />
+        </RectButton>
+      </ImageBackground>
+     
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#d3e2e6",
-    paddingTop: 30,
-    padding: 10,
-    alignItems: "center",
-    flex: 1,
-  },
-  header: {
-    flexDirection: "row",
-    alignSelf: "flex-end",
-  },
-  body: {
-    backgroundColor: "#15c3f9",
-    marginTop: 20,
-    borderRadius: 20,
-    alignItems: "flex-end",
-    flexDirection: "row",
-  },
-  bodyLeft: {
-    margin: 30,
-  },
-  bodyRight: {
-    margin: 30,
-  },
-  text: {
-    backgroundColor: "#fff",
-    borderWidth: 1.4,
-    borderRadius: 20,
-    height: 56,
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    marginBottom: 16,
-    textAlignVertical: "top",
-  },
-  labelName: {
-    paddingRight: 100,
-    fontWeight: "bold",
-    color: "#15c3f9",
-    fontSize: 32,
+  imageBackgroung:{
+      flex: 1,
+      resizeMode: "cover",
+      justifyContent: "center",
 
-    marginBottom: 8,
+    },
+  container: {
+    flex: 1,  
+    justifyContent: 'center',
+    // margin:1
   },
-  labelText: {
-    fontWeight: "bold",
-    fontSize: 16,
+
+  banner: {
+    width: '100%',
+    resizeMode: 'contain'
   },
-  label: {
-    color: "#FFFF",
-    fontSize: 14,
-    marginBottom: 8,
+
+  title: {
+    // fontFamily: 'Poppins_400Regular',
+    padding:10,
+    color: '#FF4500',
+    fontSize: 28,
+    lineHeight: 40,
+    marginTop: 80,
+    fontWeight: 'bold'
   },
-  input: {
-    backgroundColor: "#fff",
-    borderWidth: 1.4,
-    borderColor: "#d3e2e6",
-    borderRadius: 20,
-    height: 56,
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    marginBottom: 16,
-    textAlignVertical: "top",
+
+  titleBold: {
+    fontFamily: 'Poppins_600SemiBold',
   },
-  font: {
-    fontSize: 30,
-    fontWeight: "bold",
-    alignSelf: "center",
+
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // backgroundColor: '#87CEEB',
+    paddingBottom:20
   },
-  button: {
-    backgroundColor: "#15c3f9",
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 60,
-    marginTop: 20,
-    flexDirection: "row",
-    borderColor: "red",
+  TopContainer:{
+    padding:10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom:'10%'
   },
-  iconColor: {
-    color: "#15c3f9",
+  squareFrame:{
+    marginLeft:10,
+    padding:10,
+    borderRadius:25,
+    opacity: 0.7,
+    backgroundColor: '#FFFF'
   },
-  logo: {
-    alignItems: "center",
-    paddingBottom: 10,
+  textInfo: {
+    marginLeft:10,
+    width: '90%',
+    backgroundColor: '#708090',
+    borderRadius: 8,
+    padding: 24,
+    justifyContent: 'space-between',
+    fontSize: 20,
   },
-  image: {
+
+  infoText: {
+    paddingLeft:10,
+    fontFamily: 'Archivo_700Bold',
+    color: '#FF4500',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+
+  totalConnections: {
+    fontFamily: 'Poppins_400Regular',
+    color: '#d4c2ff',
+    fontSize: 12,
+    lineHeight: 20,
+    maxWidth: 140,
+    marginTop: 40
+  },
+  iconStyle: {
+    color: "#E9967A",
+    paddingTop: 0
+  },
+  imageLogo:{
     width: 100,
-    height: 100,
+    height: 100,   
   },
+  addButton: {
+    position: 'absolute',
+    right: 30,
+    bottom: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#15c3f9'
+}
+
 });
+
+
+
+
+export default Dashboard;
