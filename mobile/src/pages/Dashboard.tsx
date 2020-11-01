@@ -76,14 +76,12 @@ function Dashboard() {
        <View style = {styles.squareFrame}>
        
           <Text style = {styles.infoText}>Seu peso: { user?.kilograms} Kg
-                        {user?.quantityThatYouDrinked}
           </Text>
         
           <Text style = {styles.infoText}>Você já bebeu:</Text>
-          <Text style = {styles.textInfo}>{user?.quantityThatYouDrinked}</Text>
+          <Text style = {styles.textInfo}>{quantityThatYouDrinked}</Text>
           <Text style = {styles.infoText}>Você precisa beber:</Text>
-          {console.log()}
-          <Text style = {styles.textInfo}>{setQuantityThatYouNeedToDrink}</Text>
+          <Text style = {styles.textInfo}>{quantityThatYouNeedToDrink} ml</Text>
         </View>
         </View>
       
