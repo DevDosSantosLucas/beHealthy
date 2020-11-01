@@ -1,7 +1,7 @@
 import { useAuth } from "../contexts/auth";
 
 // import Logo from '../images/Be-Healthy.png';
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ScrollView,
   View,
@@ -14,14 +14,26 @@ import {
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { FormHandles } from "@unform/core";
+import { Form } from "@unform/mobile";
+import Input from "../components/Input";
+import * as Yup from "yup";
+import getValidationErrors from "../utils/getValidationErrors";
 
 // import api from '../../services/api';
 
+interface SignUpFormData {
+  name: string;
+  email: string;
+  password: string;
+  kilograms: number;
+}
+
 export default function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [kilograms, setKilograms] = useState("");
+  const formRef = useRef<FormHandles>(null);
+
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const navigation = useNavigation();
 
@@ -32,57 +44,123 @@ export default function SignUp() {
   console.log(user);
   console.log(signIn);
 
-  // function handleSignIn(){
-  //  console.log("logar");
-  //  signIn();
-  // }
-  async function handleSignIn() {
-    console.log("logar");
-    signIn({ email, password });
+  const handleSignIn = useCallback(async (data: SignUpFormData) => {
+    try {
+      formRef.current?.setErrors({});
 
-    // const {latitude,longitude} = params.position;
+      const schema = Yup.object().shape({
+        name: Yup.string()
+          .required("Nome Obrigatório"),
+        email: Yup.string()
+          .email("Digite um e-mail válido")
+          .required("Email obrigatório"),
+        password: Yup.string()
+          .min(6, "Mínimo de 6 caracteres")
+          .required("Senha obrigatório"),
+        kilograms: Yup.string()
+          .required("Informe Seu Peso")
+      });
 
-    // const data = new FormData();
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+      signIn(data);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
 
-    // data.append('name',name);
-    // data.append('password', password);
+        formRef.current?.setErrors(errors);
 
-    // await api.post('orphanages',data)
+        return;
+      }
+      console.log("deu errado");
+    }
+  }, []);
 
-    // navigation.navigate('OrphanagesMap');
-  }
+
 
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={{ padding: 24 }}
     >
-      <Text style={styles.label}>Nome</Text>
-      <TextInput style={styles.input} value={name} onChangeText={setName} />
+      
 
-      <Text style={styles.label}>E-mail</Text>
-      <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+      <Form ref={formRef} onSubmit={handleSignIn}>
+      <Input
+          autoCorrect={false}
+          autoCapitalize="none"
+          name="user"
+          icon="user"
+          placeholder="Seu Nome"
+          returnKeyType="next"
+          // ref={}
+          onSubmitEditing={() => {
+            emailInputRef.current?.focus();
+          }}
+        />
+        <Input
+          keyboardType="email-address"
+          autoCorrect={false}
+          autoCapitalize="none"
+          name="email"
+          icon="mail"
+          placeholder="Seu E-mail"
+          returnKeyType="next"
+          ref={emailInputRef}
+          onSubmitEditing={() => {
+            passwordInputRef.current?.focus();
+          }}
+        />
 
-      <Text style={styles.label}>Senha</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-      />
+        <Input
+          autoCorrect={false}
+          name="password"
+          icon="lock"
+          secureTextEntry
+          placeholder="Digite uma Senha"
+          returnKeyType="send"
+          autoCompleteType="password"
+          ref={passwordInputRef}
+          onSubmitEditing={() => {
+            passwordInputRef.current?.focus();
+          }}
+        />      
 
-      <Text style={styles.label}>Qual seu Peso?</Text>
-      <TextInput
-        style={styles.input}
-        value={kilograms}
-        onChangeText={setKilograms}
-      />
-
-      <RectButton style={styles.nextButtonUp} onPress={handleSignIn}>
+          <Input
+          autoCorrect={false}
+          name="password"
+          icon="lock"
+          secureTextEntry
+          placeholder="Repetir a Senha"
+          returnKeyType="send"
+          autoCompleteType="password"
+          ref={passwordInputRef}
+          onSubmitEditing={() => {
+            passwordInputRef.current?.focus();
+          }}
+        /> 
+        <Input
+          keyboardType ={"numeric"}
+          autoCorrect={false}
+          autoCapitalize="none"
+          name="kg"
+          icon="plus-square"
+          placeholder="Seu Peso (kg)"
+          returnKeyType="next"
+          // ref={}
+          onSubmitEditing={() => {
+            formRef.current?.submitForm();
+          }}
+          />
+      <RectButton style={styles.nextButtonUp} onPress={() => formRef.current?.submitForm()}>
         <Text style={styles.nextButtonText}>Cadastrar</Text>
       </RectButton>
+      </Form>
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -6,11 +6,10 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { ISignInProps } from "../interfaces";
 
 interface User {
+  id: string;
   name: string;
   email: string;
   kilograms: number;
-  quantityThatYouDrinked: number;
-  quantityThatYouNeedToDrink: number;
 }
 
 interface AuthContextData {

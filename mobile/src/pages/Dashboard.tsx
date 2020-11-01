@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text ,StyleSheet,ImageBackground} from 'react-native';
+import { View, Image, Text ,StyleSheet,ImageBackground ,Modal, Alert} from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native'
 import { RectButton } from 'react-native-gesture-handler';
 
@@ -9,24 +9,47 @@ import api from '../services/api';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
+// import AddDrinkWater from './AddDrinkWater';
+
+interface DetailUserDrink{
+  quantityThatYouDrinked: number;
+  quantityThatYouNeedToDrink: number;
+  needToDrinkMore: boolean
+}
+// interface IdUser{
+//   id: string;
+// }
+
+
 
 function Dashboard() {
+
   // const image ={ uri : "../images/drinking.png"}
   const isFocused = useIsFocused();
   const { navigate } = useNavigation();
-  const [totalConnections, setTotalConnections] = useState(0);
   const { user, signOut } = useAuth();
-  // useEffect(() => {
-  //   api.get('connections').then(response => {
-  //     const { total } = response.data;
 
-  //     setTotalConnections(total);
-  //   })
-  // }, [isFocused]);
+  // const [info,setInfo] =useState<DetailUserDrink>();
 
-  function handleNavigateToGiveClassesPage() {
-    navigate('GiveClasses')
-  }
+//   const params = route.params as  IdUser;
+//   useEffect(()=>{
+//     api.get('users/').then(response => {
+//         setInfo(response.data);
+//     })
+// },[params.id]);
+
+   const[quantityThatYouDrinked,setQuantityThatYouDrinked] = useState<DetailUserDrink>();
+   const[quantityThatYouNeedToDrink,setQuantityThatYouNeedToDrink] = useState<DetailUserDrink>();
+   const[needToDrinkMore, setNeedToDrinkMore] = useState<DetailUserDrink>();
+
+    useEffect(()=>{
+   api.get('users/detail').then(response =>{
+    setQuantityThatYouDrinked(response.data.quantityThatYouDrinked)
+    setQuantityThatYouNeedToDrink(response.data.quantityThatYouNeedToDrink)
+    setNeedToDrinkMore(response.data.needToDrinkMore)
+  })
+  },[]);
+
 
   function handleNavigateToLogin() {
     
@@ -34,7 +57,6 @@ function Dashboard() {
   }
   function handleAddWater(){
     navigate('AddDrinkWater')
-
   }
 
   return (
@@ -45,41 +67,46 @@ function Dashboard() {
     <ImageBackground source={require("../images/drinking.png")} 
       style={styles.imageBackgroung}>
      
-     <View style={styles.TopContainer}>
-       <View>
-       <Image style = {styles.imageLogo}
+  
+      <View style = {styles.box}>
+       <Text style={styles.title}>
+        Olá {user?.name} {'\n'}
+        </Text>
+
+       <View style = {styles.squareFrame}>
+       
+          <Text style = {styles.infoText}>Seu peso: { user?.kilograms} Kg
+                        {user?.quantityThatYouDrinked}
+          </Text>
+        
+          <Text style = {styles.infoText}>Você já bebeu:</Text>
+          <Text style = {styles.textInfo}>{user?.quantityThatYouDrinked}</Text>
+          <Text style = {styles.infoText}>Você precisa beber:</Text>
+          {console.log()}
+          <Text style = {styles.textInfo}>{setQuantityThatYouNeedToDrink}</Text>
+        </View>
+        </View>
+      
+      
+        
+      
+      <RectButton
+          onPress={handleAddWater} style={styles.addButton}>
+
+           
+           <Entypo name="plus" size={60} color="#FFF" />
+        
+        </RectButton>
+        
+        <RectButton onPress={handleNavigateToLogin} style ={styles.exitButton}>       
+          <FontAwesome5 name="door-open" size={40} color ="#FFF" />          
+        </RectButton>
+
+        <View style = {styles.imageLogo}>
+          <Image style = {styles.logo}
           source={require("../images/Be-Healthy.png")} 
             />
         </View>
-        <View>
-         <RectButton onPress={handleNavigateToLogin}>       
-          <FontAwesome5 name="door-open" size={50} style={styles.iconStyle} />          
-        </RectButton>
-        </View>
-      </View>
-
-      <Text style={styles.title}>
-        Olá {user?.name} {'\n'}
-        <Text style={styles.titleBold}>Já bebeu água hoje?</Text>
-      </Text>
-     
-      <View style={styles.buttonsContainer}>
-       <View style = {styles.squareFrame}>
-        <Text style = {styles.infoText}>Seu peso: {user?.kilograms}Kg{user?.quantityThatYouDrinked}
-        </Text>
-        
-        <Text style = {styles.infoText}>Você já bebeu:</Text>
-        <Text style = {styles.textInfo}>{user?.quantityThatYouDrinked}</Text>
-        <Text style = {styles.infoText}>Você precisa beber:</Text>
-          {console.log()}
-        <Text style = {styles.textInfo}>{user?.quantityThatYouNeedToDrink}</Text>
-          </View>
-      </View>
-      <RectButton
-          onPress={handleAddWater}        
-          style={styles.addButton}>
-          <Entypo name="plus" size={60} color="black" />
-        </RectButton>
       </ImageBackground>
      
     </View>
@@ -96,17 +123,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,  
     justifyContent: 'center',
-    // margin:1
   },
 
-  banner: {
-    width: '100%',
-    resizeMode: 'contain'
-  },
+ 
 
   title: {
     // fontFamily: 'Poppins_400Regular',
     padding:10,
+    bottom:50,
     color: '#FF4500',
     fontSize: 28,
     lineHeight: 40,
@@ -118,24 +142,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_600SemiBold',
   },
 
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    // backgroundColor: '#87CEEB',
-    paddingBottom:20
+  box: {
+    paddingTop:'20%'
   },
-  TopContainer:{
-    padding:10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom:'10%'
-  },
+
   squareFrame:{
-    marginLeft:10,
-    padding:10,
+    margin:10,
+    padding:'10%',
     borderRadius:25,
-    opacity: 0.7,
-    backgroundColor: '#FFFF'
+    opacity: 0.8,
+    backgroundColor: '#FFFF',
+    bottom:'20%'
   },
   textInfo: {
     marginLeft:10,
@@ -167,9 +184,29 @@ const styles = StyleSheet.create({
     color: "#E9967A",
     paddingTop: 0
   },
+  exitButton:{
+    position: 'absolute',
+    left: 30,
+    bottom: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#15c3f9',
+  },
   imageLogo:{
+    position: 'absolute',
+    bottom: 30,
+    width: 60,
+    height: 60,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center', 
+  },
+  logo:{
     width: 100,
-    height: 100,   
+    height: 100,  
   },
   addButton: {
     position: 'absolute',

@@ -31,26 +31,26 @@ function AddDrinkWater() {
         const { navigate } = useNavigation();
 
         return (
-            <Modal transparent={true} 
-                // onRequestClose= {oncancel}
-                onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
-                  }}
-                animationType='slide'>
-                <TouchableWithoutFeedback
-                    onPress={handleBackDashboard}>
-                    <View style={styles.background}></View>
-                </TouchableWithoutFeedback>
-                <View style={styles.container}>
-                    <Text style={styles.header}>Quantos ml de água você tomou?</Text>
+          <View style={styles.window}>
+          <View style = {styles.background}>
+
+            <TouchableOpacity
+              style = {styles.backbutton}
+              onPress={handleBackDashboard} 
+            />
+          </View>
+            <View style={styles.container}>
+                    <Text style={styles.title}>Quantos ml de água você tomou?</Text>
                     
                     
         <View style={styles.itemsContainer}>
+          
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 20 }}
         >
+          
             <TouchableOpacity
               style={styles.item}
               onPress={() => {   }}
@@ -114,156 +114,113 @@ function AddDrinkWater() {
               <Text style={styles.itemTitle}>800 ml</Text>
               <Image source={require("../images/800ml.png")} />
             </TouchableOpacity>
-
+           
         </ScrollView>
 
       </View>
-      <View style={styles.buttons}>
+      <View >
                         
                         <TouchableOpacity onPress={handleBackDashboard}>
                             <Text style={styles.button}>Cancelar</Text>
                         </TouchableOpacity>
                     </View>
+                   
                 </View>
-                <TouchableWithoutFeedback
-                    onPress={handleBackDashboard}>
-                    <View style={styles.background}></View>
-                </TouchableWithoutFeedback>
-            </Modal>
+
+                <View style = {styles.background}>
+
+                  <TouchableOpacity
+                  style = {styles.backbutton}
+                  onPress={handleBackDashboard} 
+                  />
+                </View>
+                
+        </View>
+            
+            
         )
     }
 
 
 
 const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)'
+    window:{flex:1},
+    backbutton:{
+    flex:1,
+    backgroundColor: 'rgba(52, 52, 52, 0.8)'
+    },
+    background:{
+        flex:1,
     },
     container: {
-        backgroundColor: '#FFF'
-    },
-    header: {
-        // fontFamily: commonStyles.fontFamily,
-        // backgroundColor: commonStyles.colors.today,
-        // color: commonStyles.colors.secondary,
-        textAlign: 'center',
-        padding: 15,
-        fontSize: 18
-    },
-    input: {
-        
-        height: 40,
-        margin: 15,
-        backgroundColor: '#FFF',
-        borderWidth: 1,
-        borderColor: '#E3E3E3',
-        borderRadius: 6
-    },
-    buttons: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
-    },
-    button: {
-        margin: 20,
-        marginRight: 30,
-        color: '#000'
-    },
-    date: {
-        
-        fontSize: 20,
-        marginLeft: 15
-    },
-    // 
-    // 
+      borderWidth: 3,
+      borderColor: "#000",
     
+      // borderRadius:15,
+      paddingTop:'5%',
+      paddingBottom:'5%',
+      backgroundColor: '#15c3f9',
+    },
+  
+    button: {
+        justifyContent: 'flex-start',
+        padding:10,
+        marginLeft: '5%',
+        marginRight: '60%',
+        borderRadius: 15,
+        backgroundColor: '#000',
+        color: '#FF4500',
+        fontWeight: 'bold'
+    },
+    title: {
+      fontSize: 20,
+      fontFamily: "Roboto_400Regular",
+      // fontFamily: "Ubuntu_700Bold",
+      marginTop: 24,
+      color: '#FF4500',
+      fontWeight: 'bold'
+    },
       
-        title: {
-          fontSize: 20,
-          fontFamily: "Ubuntu_700Bold",
-          marginTop: 24,
-        },
-      
-        description: {
-          color: "#6C6C80",
-          fontSize: 16,
-          marginTop: 4,
-          fontFamily: "Roboto_400Regular",
-        },
-      
-        mapContainer: {
-          flex: 1,
-          width: "100%",
-          borderRadius: 10,
-          overflow: "hidden",
-          marginTop: 16,
-        },
-      
-        map: {
-          width: "100%",
-          height: "100%",
-        },
-      
-       
-      
-        mapMarkerContainer: {
-          width: 90,
-          height: 70,
-          backgroundColor: "#34CB79",
-          flexDirection: "column",
-          borderRadius: 8,
-          overflow: "hidden",
-          alignItems: "center",
-        },
-      
-        mapMarkerImage: {
-          width: 90,
-          height: 45,
-          resizeMode: "cover",
-        },
-      
-        mapMarkerTitle: {
-          flex: 1,
-          fontFamily: "Roboto_400Regular",
-          color: "#FFF",
-          fontSize: 13,
-          lineHeight: 23,
-        },
-      
-        itemsContainer: {
-          flexDirection: "row",
-          marginTop: 16,
-          marginBottom: 32,
-        },
-      
-        item: {
-          backgroundColor: "#fff",
-          borderWidth: 2,
-          borderColor: "#eee",
-          height: 150,
-          width: 150,
-          borderRadius: 8,
-          paddingHorizontal: 16,
-          paddingTop: 20,
-          paddingBottom: 16,
-          marginRight: 8,
-          alignItems: "center",
-          justifyContent: "space-between",
-      
-          textAlign: "center",
-        },
-      
-        selectedItem: {
-          borderColor: "#34CB79",
-          borderWidth: 2,
-        },
-      
-        itemTitle: {
-          fontFamily: "Roboto_400Regular",
-          textAlign: "center",
-          fontSize: 13,
-        },
-      
+    description: {
+      color: "#6C6C80",
+      fontSize: 16,
+      marginTop: 4,
+      fontFamily: "Roboto_400Regular",
+      fontWeight: 'bold'
+    },
+    itemsContainer: {
+      flexDirection: "row",
+      padding:10,
+      marginTop: 16,
+      marginBottom: 32,
+      backgroundColor: "#000"
+    },
+  
+    item: {
+      backgroundColor: "#fff",
+      borderWidth: 2,
+      borderColor: "#15c3f9",
+      height: 150,
+      width: 150,
+      borderRadius: 8,
+      paddingHorizontal: 16,
+      paddingTop: 20,
+      paddingBottom: 16,
+      marginRight: 8,
+      alignItems: "center",
+      justifyContent: "space-between",
+  
+      textAlign: "center",
+    },
+  
+    
+  
+    itemTitle: {
+      fontFamily: "Roboto_400Regular",
+      textAlign: "center",
+      fontSize: 13,
+    },
+  
 });
 
 export default AddDrinkWater;
