@@ -43,13 +43,9 @@ function Dashboard() {
   //     })
   // },[params.id]);
 
-  const [quantityThatYouDrinked, setQuantityThatYouDrinked] = useState<
-    DetailUserDrink
-  >();
-  const [quantityThatYouNeedToDrink, setQuantityThatYouNeedToDrink] = useState<
-    DetailUserDrink
-  >();
-  const [needToDrinkMore, setNeedToDrinkMore] = useState<DetailUserDrink>();
+  const [quantityThatYouDrinked, setQuantityThatYouDrinked] = useState(0);
+  const [quantityThatYouNeedToDrink, setQuantityThatYouNeedToDrink] = useState(0);
+  const [needToDrinkMore, setNeedToDrinkMore] = useState(false);
 
   useEffect(() => {
     api.get("users/detail").then((response) => {
@@ -83,7 +79,7 @@ function Dashboard() {
             <Text style={styles.infoText}>Você já bebeu:</Text>
             <Text style={styles.textInfo}>{quantityThatYouDrinked}</Text>
             <Text style={styles.infoText}>Você precisa beber:</Text>
-            <Text style={styles.textInfo}>{quantityThatYouNeedToDrink} ml</Text>
+            <Text style={[styles.textInfo, {color: needToDrinkMore ? '#000' : '#00b300'}]}>{quantityThatYouNeedToDrink} ml</Text>
           </View>
         </View>
 
