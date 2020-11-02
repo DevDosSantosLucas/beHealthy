@@ -39,11 +39,6 @@ export default function SignUp() {
   const nameInputRef = useRef<TextInput>(null);
   const kilogramsInputRef = useRef<TextInput>(null);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [kilograms, setKilograms] = useState("");
-
   const navigation = useNavigation();
 
   const route = useRoute();
@@ -53,7 +48,7 @@ export default function SignUp() {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        name: Yup.string().required("Nome Obrigatório"),
+        name: Yup.string().required("Nome Obrigatório").max(30, 'Máximo 30 caracteres'),
         email: Yup.string()
           .email("Digite um e-mail válido")
           .required("Email obrigatório"),
@@ -73,10 +68,10 @@ export default function SignUp() {
       });
 
       api.post("/users", {
-        name: name,
-        email: email,
-        password: password,
-        kilograms: kilograms,
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        kilograms: data.kilograms,
       });
 
       navigation.navigate("SignIn");
@@ -107,8 +102,6 @@ export default function SignUp() {
           icon="user"
           placeholder="Seu Nome"
           returnKeyType="next"
-          value={name}
-          onChangeText={setName}
           ref={nameInputRef}
           onSubmitEditing={() => {
             emailInputRef.current?.focus();
@@ -122,8 +115,6 @@ export default function SignUp() {
           icon="mail"
           placeholder="Seu E-mail"
           returnKeyType="next"
-          value={email}
-          onChangeText={setEmail}
           ref={emailInputRef}
           onSubmitEditing={() => {
             passwordInputRef.current?.focus();
@@ -138,8 +129,6 @@ export default function SignUp() {
           placeholder="Digite uma senha"
           returnKeyType="send"
           autoCompleteType="password"
-          value={password}
-          onChangeText={setPassword}
           ref={passwordInputRef}
           onSubmitEditing={() => {
             repeatpwdInputRef.current?.focus();
@@ -164,11 +153,9 @@ export default function SignUp() {
           autoCorrect={false}
           autoCapitalize="none"
           name="kilograms"
-          icon="plus-square"
+          icon="bar-chart"
           placeholder="Seu Peso (kg)"
           returnKeyType="next"
-          value={kilograms}
-          onChangeText={setKilograms}
           ref={kilogramsInputRef}
           onSubmitEditing={() => {
             formRef.current?.submitForm();
