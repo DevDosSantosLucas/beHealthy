@@ -67,7 +67,7 @@ export default function SignUp() {
         abortEarly: false,
       });
 
-      api.post("/users", {
+      await api.post("/users", {
         name: data.name,
         email: data.email,
         password: data.password,
