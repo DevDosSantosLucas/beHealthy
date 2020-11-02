@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Modal,
     View,
@@ -16,13 +16,50 @@ import {
 
 
 import { useNavigation, useIsFocused } from '@react-navigation/native'
+import api from '../services/api';
+
+interface Water{
+  drinks:number;
+}
+
 
 
 
 function AddDrinkWater() {
+    // let  [drinks,setDrinks] = useState<Water>();
+     
+    const milliliters = [100,150,250,300,400,500,600,700,800]  
+    const file = "../images/"
+    const finalFile = ".png"
+    const images = 
+      "../images/150ml.png"
+      // "../images/150ml.png",
+      // "../images/150ml.png",
+      // "../images/150ml.png",
+      // "../images/150ml.png",
+      // "../images/150ml.png",
+      // "../images/150ml.png",
+      // "../images/150ml.png",
+      // "../images/150ml.png"
+    // ]
+    
 
     function handleBackDashboard(){
         navigate('Dashboard')
+    }
+    
+    const  [quantity,setQuantity] = useState(0);
+    function handleAddDrinkWater(receiveQuantity: number){
+      
+      console.log(receiveQuantity)
+
+      // setQuantity(receiveQuantity)
+      api.post("/drinks", {
+        quantity:receiveQuantity
+      });
+      console.log(quantity)
+      
+      navigate('Dashboard');  
     }
  
         
@@ -51,69 +88,27 @@ function AddDrinkWater() {
           contentContainerStyle={{ paddingHorizontal: 20 }}
         >
           
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>100 ml</Text>
-              <Image source={require("../images/100ml.png")} />
-            </TouchableOpacity>
+          
+
+
             
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>150 ml</Text>
-              <Image source={require("../images/150ml.png")} />
-            </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>250 ml</Text>
-              <Image source={require("../images/250ml.png")} />
+            {milliliters.map((milliliter) => 
+           
+            <TouchableOpacity 
+            style={styles.item}
+            onPress={()=>{handleAddDrinkWater(milliliter)}}
+            activeOpacity={0.4}
+            key={milliliter}>
+              <Text style={styles.itemTitle}>{milliliter}</Text>
+              
+              <Image //aqui preciso chamar um array de imagens
+                source={require(images)} />
+                
             </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>300 ml</Text>
-              <Image source={require("../images/300ml.png")} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>400 ml</Text>
-              <Image source={require("../images/400ml.png")} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>600 ml</Text>
-              <Image source={require("../images/600ml.png")} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>700 ml</Text>
-              <Image source={require("../images/700ml.png")}  />
-            </TouchableOpacity>
+            )}
             
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => {   }}
-              activeOpacity={0.4}>
-              <Text style={styles.itemTitle}>800 ml</Text>
-              <Image source={require("../images/800ml.png")} />
-            </TouchableOpacity>
+          
            
         </ScrollView>
 

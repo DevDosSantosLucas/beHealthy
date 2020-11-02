@@ -50,7 +50,9 @@ export default function SignIn() {
         email: Yup.string()
           .email("Digite um e-mail válido")
           .required("Email obrigatório"),
-        password: Yup.string().min(6, "Mínimo de 6 caracteres"),
+        password: Yup.string()
+          .min(6, "Mínimo de 6 caracteres")
+          .required("Senha Obrigatória"),
       });
 
       await schema.validate(data, {

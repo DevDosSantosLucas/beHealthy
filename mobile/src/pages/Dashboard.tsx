@@ -48,7 +48,7 @@ function Dashboard() {
   const [needToDrinkMore, setNeedToDrinkMore] = useState(false);
 
   useEffect(() => {
-    api.get("users/detail").then((response) => {
+    api.get("users/").then((response) => {
       setQuantityThatYouDrinked(response.data.quantityThatYouDrinked);
       setQuantityThatYouNeedToDrink(response.data.quantityThatYouNeedToDrink);
       setNeedToDrinkMore(response.data.needToDrinkMore);
@@ -146,8 +146,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#708090",
     borderRadius: 8,
     padding: 24,
-    justifyContent: "space-between",
+    
+    justifyContent: "center",
     fontSize: 20,
+    fontWeight:'bold'
   },
 
   infoText: {
