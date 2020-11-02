@@ -23,13 +23,13 @@ import getValidationErrors from "../utils/getValidationErrors";
 import * as auth from "../services/auth";
 // import {ISignUpProps} from '../interfaces'
 
-import api from '../services/api';
+import api from "../services/api";
 
 interface SignUpFormData {
   name: string;
   email: string;
   password: string;
-  kilograms: number;
+  kilograms: string;
 }
 
 export default function SignUp() {
@@ -41,28 +41,21 @@ export default function SignUp() {
   const nameInputRef = useRef<TextInput>(null);
   const kilogramsInputRef = useRef<TextInput>(null);
 
-  const[name,setName] = useState('');
-  const[email,setEmail] = useState('');
-  const[password,setPassword] = useState('');
-  const[kilograms,setKilograms] = useState(0);
-  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [kilograms, setKilograms] = useState("");
 
   const navigation = useNavigation();
 
   const route = useRoute();
-
-  const { signed, user, signIn} = useAuth();
-  console.log(signed);
-  console.log(user);
-  // console.log(signUp);
 
   const handleSignUp = useCallback(async (data: SignUpFormData) => {
     try {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        name: Yup.string()
-          .required("Nome Obrigatório"),
+        name: Yup.string().required("Nome Obrigatório"),
         email: Yup.string()
           .email("Digite um e-mail válido")
           .required("Email obrigatório"),
@@ -71,17 +64,18 @@ export default function SignUp() {
           .required("Senha obrigatório"),
         kilograms: Yup.string()
           .max(5, "Maximo 5 caracteres")
-          .required("Informe Seu Peso")
-      });           
-             api.post("/users", {
-                name:name,email:email,password:password,kilograms:kilograms
-              });
-        
-        navigation.navigate('SignIn');  
-      
-      
-        // signUp(data);
+          .required("Informe Seu Peso"),
+      });
+      api.post("/users", {
+        name: name,
+        email: email,
+        password: password,
+        kilograms: kilograms,
+      });
 
+      navigation.navigate("SignIn");
+
+      // signUp(data);
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -94,27 +88,21 @@ export default function SignUp() {
     }
   }, []);
 
-  
-
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={{ padding: 24 }}
     >
-      
-
       <Form ref={formRef} onSubmit={handleSignUp}>
-      <Input
+        <Input
           autoCorrect={false}
           autoCapitalize="none"
           name="user"
           icon="user"
           placeholder="Seu Nome"
           returnKeyType="next"
-          
           value={name}
-          onChangeText = {setName}
-
+          onChangeText={setName}
           ref={nameInputRef}
           onSubmitEditing={() => {
             emailInputRef.current?.focus();
@@ -128,10 +116,8 @@ export default function SignUp() {
           icon="mail"
           placeholder="Seu E-mail"
           returnKeyType="next"
-          
           value={email}
-          onChangeText = {setEmail}
-          
+          onChangeText={setEmail}
           ref={emailInputRef}
           onSubmitEditing={() => {
             passwordInputRef.current?.focus();
@@ -146,17 +132,15 @@ export default function SignUp() {
           placeholder="Digite uma Senha"
           returnKeyType="send"
           autoCompleteType="password"
-
           value={password}
-          onChangeText = {setPassword}
-          
+          onChangeText={setPassword}
           ref={passwordInputRef}
           onSubmitEditing={() => {
             repeatpwdInputRef.current?.focus();
           }}
-        />      
+        />
 
-          {/* <Input
+        {/* <Input
           autoCorrect={false}
           name="repeatPassword"
           icon="lock"
@@ -170,32 +154,31 @@ export default function SignUp() {
           }}
         />  */}
         <Input
-          keyboardType ={"numeric"}
+          keyboardType="numeric"
           autoCorrect={false}
           autoCapitalize="none"
           name="kilograms"
           icon="plus-square"
           placeholder="Seu Peso (kg)"
           returnKeyType="next"
-
           value={kilograms}
-          onChangeText = {setKilograms}
-          
+          onChangeText={setKilograms}
           ref={kilogramsInputRef}
           onSubmitEditing={() => {
             formRef.current?.submitForm();
           }}
-          />
-        <RectButton style={styles.nextButtonUp} 
-      onPress={() => formRef.current?.submitForm()}>
-        {/* onPress={handleSignUp}> */}
-        <Text style={styles.nextButtonText}>Cadastrar</Text>
-      </RectButton>
+        />
+        <RectButton
+          style={styles.nextButtonUp}
+          onPress={() => formRef.current?.submitForm()}
+        >
+          {/* onPress={handleSignUp}> */}
+          <Text style={styles.nextButtonText}>Cadastrar</Text>
+        </RectButton>
       </Form>
     </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
