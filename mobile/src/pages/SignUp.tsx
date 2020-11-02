@@ -19,9 +19,7 @@ import { Form } from "@unform/mobile";
 import Input from "../components/Input";
 import * as Yup from "yup";
 import getValidationErrors from "../utils/getValidationErrors";
-// import { signUp } from "../services/auth";
-import * as auth from "../services/auth";
-// import {ISignUpProps} from '../interfaces'
+// import * as auth from "../services/auth";
 
 import api from "../services/api";
 
@@ -65,7 +63,15 @@ export default function SignUp() {
         kilograms: Yup.string()
           .max(5, "Maximo 5 caracteres")
           .required("Informe Seu Peso"),
+        password_confirmation: Yup.string()
+          .required("Você precisa confirmar a nova senha")
+          .oneOf([Yup.ref("password")], "As senhas precisam ser iguais"),
       });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
       api.post("/users", {
         name: name,
         email: email,
@@ -129,7 +135,7 @@ export default function SignUp() {
           name="password"
           icon="lock"
           secureTextEntry
-          placeholder="Digite uma Senha"
+          placeholder="Digite uma senha"
           returnKeyType="send"
           autoCompleteType="password"
           value={password}
@@ -140,19 +146,19 @@ export default function SignUp() {
           }}
         />
 
-        {/* <Input
+        <Input
           autoCorrect={false}
-          name="repeatPassword"
+          name="password_confirmation"
           icon="lock"
           secureTextEntry
-          placeholder="Repetir a Senha"
+          placeholder="Confirme a sua senha"
           returnKeyType="send"
           autoCompleteType="password"
           ref={repeatpwdInputRef}
           onSubmitEditing={() => {
             kilogramsInputRef.current?.focus();
           }}
-        />  */}
+        />
         <Input
           keyboardType="numeric"
           autoCorrect={false}
@@ -172,7 +178,6 @@ export default function SignUp() {
           style={styles.nextButtonUp}
           onPress={() => formRef.current?.submitForm()}
         >
-          {/* onPress={handleSignUp}> */}
           <Text style={styles.nextButtonText}>Cadastrar</Text>
         </RectButton>
       </Form>
