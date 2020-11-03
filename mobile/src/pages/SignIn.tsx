@@ -19,6 +19,12 @@ import { Form } from "@unform/mobile";
 import Input from "../components/Input";
 import * as Yup from "yup";
 import getValidationErrors from "../utils/getValidationErrors";
+import { IAuthState } from "../redux/modules/auth/types";
+import { IState } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authRequest } from "../redux/modules/auth/actions";
+import { alertRequest } from "../redux/modules/alerts/actions";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // import api from '../../services/api';
 
@@ -29,6 +35,7 @@ interface SignUpFormData {
 
 export default function SignIn() {
   const formRef = useRef<FormHandles>(null);
+  const dispatch = useDispatch();
 
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
@@ -37,10 +44,7 @@ export default function SignIn() {
 
   const route = useRoute();
 
-  const { signed, user, signIn } = useAuth();
-  console.log(signed);
-  console.log(user);
-  console.log(signIn);
+  const { loading } = useSelector<IState, IAuthState>(state => state.auth);  
 
   const handleSignIn = useCallback(async (data: SignUpFormData) => {
     try {
@@ -58,7 +62,13 @@ export default function SignIn() {
       await schema.validate(data, {
         abortEarly: false,
       });
-      signIn(data);
+      dispatch(
+        authRequest({
+          password: data.password,
+          email: data.email,
+          loading: true,
+        }),
+      );
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -67,7 +77,13 @@ export default function SignIn() {
 
         return;
       }
-      console.log("deu errado");
+      dispatch(
+        alertRequest({
+          message: 'Ocorreu um erro ao fazer login, tente novamente',
+          isDialog: true,
+          messageType: 'danger',
+        }),
+      );
     }
   }, []);
 
@@ -80,6 +96,11 @@ export default function SignIn() {
       style={styles.container}
       contentContainerStyle={{ padding: 24 }}
     >
+      <Spinner
+          visible={loading}
+          textContent="Carregando..."
+          textStyle={styles.spinnerTextStyle}
+        />
       <View style={styles.logo}>
         <Image
           source={require("../images/Be-Healthy.png")}
@@ -200,5 +221,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     flex: 1,
+  },
+  spinnerTextStyle: {
+    color: '#15c3f9',
   },
 });

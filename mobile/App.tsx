@@ -8,6 +8,7 @@ import { AuthProvider } from "./src/contexts/auth";
 
 import Routes from "./src/routes/";
 
+import { Provider } from 'react-redux';
 import { StatusBar } from "react-native";
 
 import { useFonts } from "expo-font";
@@ -16,6 +17,8 @@ import {
   Nunito_700Bold,
   Nunito_800ExtraBold,
 } from "@expo-google-fonts/nunito";
+import store from './src/redux';
+import FlashMessage from "react-native-flash-message";
 
 const App: React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -34,13 +37,15 @@ const App: React.FC = () => {
         barStyle="dark-content"
         backgroundColor="transparent"
         translucent
-
       />
       <NavigationContainer>
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
+        <Provider store={store}>
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
+        </Provider>
       </NavigationContainer>
+      <FlashMessage position="bottom" />
     </>
   );
 };
