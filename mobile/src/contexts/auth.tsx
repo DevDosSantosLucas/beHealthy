@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import * as auth from "../services/auth";
 import api from "../services/api";
 import AsyncStorage from "@react-native-community/async-storage";
-import { ISignInProps,IUser } from "../interfaces";
+import { ISignInProps } from "../interfaces";
 
 interface User {
   id: string;
@@ -17,7 +17,6 @@ interface AuthContextData {
   user: User | null;
   loading: boolean;
   signIn(data: ISignInProps): Promise<void>;
-  // signUp(data: IUser):Promise<void>;
   signOut(): void;
 }
 
@@ -52,17 +51,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     console.log(response);
   }
-
-  // async function signUp(data: IUser) {
-  //   const response = await auth.signUp(data);
-  //   setUser(response.user);
-
-  //   api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
-  //   await AsyncStorage.setItem("@mobile:user", JSON.stringify(response.user));
-  //   await AsyncStorage.setItem("@mobile:token", response.token);
-
-  //   console.log(response);
-  // }
 
   function signOut() {
     AsyncStorage.clear().then(() => {

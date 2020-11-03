@@ -39,10 +39,13 @@ const AuthRoutes : React.FC  = ()=>(
         name ="Dashboard" component = {Dashboard}/>
 
     <AppStack.Screen  
-         options={{ headerShown:false , }   }
+         options={{ headerShown:false }   }
         name ="AddDrinkWater" component = {AddDrinkWater}/>
 
+
+
     </AppStack.Navigator>
+    
     
 );
 export default AuthRoutes;

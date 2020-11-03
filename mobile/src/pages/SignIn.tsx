@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#5c8599",
     fontSize: 24,
-    fontFamily: "Nunito_700Bold",
+    // fontFamily: "Nunito_700Bold",
     marginBottom: 32,
     paddingBottom: 24,
     borderBottomWidth: 0.8,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
 
   label: {
     color: "#8fa7b3",
-    fontFamily: "Nunito_600SemiBold",
+    // fontFamily: "Nunito_600SemiBold",
     marginBottom: 8,
   },
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
 
   nextButtonText: {
-    fontFamily: "Nunito_800ExtraBold",
+    // fontFamily: "Nunito_800ExtraBold",
     fontSize: 16,
     color: "#FFF",
   },

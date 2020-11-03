@@ -43,6 +43,12 @@ export default function SignUp() {
 
   const route = useRoute();
 
+
+  const { signed, user, signIn } = useAuth();
+  console.log(signed);
+  console.log(user);
+  console.log(signIn);
+
   const handleSignUp = useCallback(async (data: SignUpFormData) => {
     try {
       formRef.current?.setErrors({});
@@ -62,21 +68,23 @@ export default function SignUp() {
           .required("Você precisa confirmar a nova senha")
           .oneOf([Yup.ref("password")], "As senhas precisam ser iguais"),
       });
-
+      console.log(data);
       await schema.validate(data, {
         abortEarly: false,
       });
-
+      
       await api.post("/users", {
         name: data.name,
         email: data.email,
         password: data.password,
         kilograms: data.kilograms,
       });
+      
+      // navigation.navigate("SignIn");
+      
+      signIn(data);
 
-      navigation.navigate("SignIn");
-
-      // signUp(data);
+      
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -98,7 +106,7 @@ export default function SignUp() {
         <Input
           autoCorrect={false}
           autoCapitalize="none"
-          name="user"
+          name="name"
           icon="user"
           placeholder="Seu Nome"
           returnKeyType="next"

@@ -3,8 +3,10 @@ import { View, ActivityIndicator } from "react-native";
 import { useAuth } from "../contexts/auth";
 // import AuthRoutes from './auth.routes';
 
-import AppStack from "./app.routes";
+import NavStack from "./nav.routes";
 import AuthStack from "./auth.routes";
+
+
 
 const Routes: React.FC = () => {
   const { signed, loading } = useAuth();
@@ -16,6 +18,6 @@ const Routes: React.FC = () => {
       </View>
     );
   }
-  return signed ? <AppStack /> : <AuthStack />;
+  return signed ? <NavStack/>: <AuthStack />;
 };
 export default Routes;

@@ -1,157 +1,147 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    Modal,
     View,
     Text,
-    TextInput,
     StyleSheet,
-    TouchableWithoutFeedback,
     TouchableOpacity,
     Alert,
     Image,
-
-    Platform, ScrollView
+    ScrollView
 } from 'react-native'
 
-
-import { useNavigation, useIsFocused } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import api from '../services/api';
-
-interface Water{
-  drinks:number;
-}
-
 
 
 
 function AddDrinkWater() {
-    // let  [drinks,setDrinks] = useState<Water>();
-     
-    const milliliters = [100,150,250,300,400,500,600,700,800]  
-    const file = "../images/"
-    const finalFile = ".png"
-    const images = 
-      "../images/150ml.png"
-      // "../images/150ml.png",
-      // "../images/150ml.png",
-      // "../images/150ml.png",
-      // "../images/150ml.png",
-      // "../images/150ml.png",
-      // "../images/150ml.png",
-      // "../images/150ml.png",
-      // "../images/150ml.png"
-    // ]
-    
-
-    function handleBackDashboard(){
-        navigate('Dashboard')
+  const  [quantity,setQuantity] = useState(0);
+  const milliliters = [
+    {
+      "ml": 100,
+      "image": require("../images/100ml.png"),
+    },
+    {
+      "ml": 150,
+      "image": require("../images/150ml.png"),
+    },
+    {
+      "ml": 250,
+      "image": require("../images/250ml.png"),
+    },
+    {
+      "ml": 300,
+      "image": require("../images/300ml.png"),  
+    },
+    {
+      "ml": 400,
+      "image": require("../images/400ml.png"),  
+    },
+    {
+      "ml": 600,
+      "image": require("../images/600ml.png"),  
+    },
+    {
+      "ml": 700,
+      "image": require("../images/700ml.png"),  
+    },
+    {
+      "ml": 800,
+      "image": require("../images/800ml.png"),  
     }
-    
-    const  [quantity,setQuantity] = useState(0);
-    function handleAddDrinkWater(receiveQuantity: number){
-      
-      console.log(receiveQuantity)
+  ];
+  const [quantityThatYouDrinked, setQuantityThatYouDrinked] = useState(0);
 
-      // setQuantity(receiveQuantity)
-      api.post("/drinks", {
-        quantity:receiveQuantity
-      });
-      console.log(quantity)
-      
-      navigate('Dashboard');  
-    }
- 
+  useEffect(() => { 
+    api.get("users/").then((response) => {
+      setQuantityThatYouDrinked(response.data.quantityThatYouDrinked);
+    });
+    }, []);
+
         
+    
 
 
-        const { navigate } = useNavigation();
+     function handleAddDrinkWater(receiveQuantity: number){
+      
+      Alert.alert('Confirmar',`Deseja mesmo inserir ${receiveQuantity} ml ?`,[
+        {
+          text:'Cancelar'
+        },
+        {
+          text: 'Sim',
+              onPress(){
+                console.log(receiveQuantity)
+
+              setQuantity(receiveQuantity)
+              // setQuantityThatYouDrinked(receiveQuantity);
+
+              api.post("/drinks", {
+                quantity:receiveQuantity
+          });
+          console.log(quantity)
+           navigate('Dashboard'); 
+          }  
+        }
+      ])  
+    }
+    const { navigate } = useNavigation();
 
         return (
           <View style={styles.window}>
-          <View style = {styles.background}>
-
-            <TouchableOpacity
-              style = {styles.backbutton}
-              onPress={handleBackDashboard} 
-            />
-          </View>
+            <View style = {styles.background}/>
+          
             <View style={styles.container}>
-                    <Text style={styles.title}>Quantos ml de água você tomou?</Text>
-                    
-                    
-        <View style={styles.itemsContainer}>
+              <Text style={styles.title}>Quantos ml de água você tomou?</Text>
+              <Text style={styles.title}>(Clique em uma das opções)</Text>
+           
+          <View style={styles.itemsContainer}>
           
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 20 }}
         >
-          
-          
 
+        {milliliters.map((milliliter) => 
+          <TouchableOpacity 
+          style={styles.item}
+          onPress={()=>{handleAddDrinkWater(milliliter.ml)}}
+          activeOpacity={0.4}
+          key={milliliter.ml}>
+          <Text style={styles.itemTitle}>{milliliter.ml} ml</Text>
+            <Image source={milliliter.image} />
+          </TouchableOpacity>
+        )}
 
-            
-
-            {milliliters.map((milliliter) => 
-           
-            <TouchableOpacity 
-            style={styles.item}
-            onPress={()=>{handleAddDrinkWater(milliliter)}}
-            activeOpacity={0.4}
-            key={milliliter}>
-              <Text style={styles.itemTitle}>{milliliter}</Text>
-              
-              <Image //aqui preciso chamar um array de imagens
-                source={require(images)} />
-                
-            </TouchableOpacity>
-            )}
-            
-          
-           
         </ScrollView>
 
       </View>
-      <View >
-                        
-                        <TouchableOpacity onPress={handleBackDashboard}>
-                            <Text style={styles.button}>Cancelar</Text>
-                        </TouchableOpacity>
-                    </View>
-                   
-                </View>
+    </View>
 
-                <View style = {styles.background}>
-
-                  <TouchableOpacity
-                  style = {styles.backbutton}
-                  onPress={handleBackDashboard} 
-                  />
-                </View>
-                
-        </View>
-            
-            
-        )
-    }
+    <View style = {styles.background}/>
+  </View>
+)}
 
 
 
 const styles = StyleSheet.create({
-    window:{flex:1},
+    window:{flex:1,
+      backgroundColor: 'rgba(52, 52, 52, 0.8)'},
     backbutton:{
     flex:1,
-    backgroundColor: 'rgba(52, 52, 52, 0.8)'
+    
     },
     background:{
         flex:1,
+        
     },
     container: {
       borderWidth: 3,
       borderColor: "#000",
     
-      // borderRadius:15,
+      borderRadius:15,
       paddingTop:'5%',
       paddingBottom:'5%',
       backgroundColor: '#15c3f9',
