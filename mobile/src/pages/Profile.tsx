@@ -15,29 +15,9 @@ import { alertRequest } from "../redux/modules/alerts/actions";
 
 function Profile() {
   const dispatch = useDispatch();
-  const { user, token } = useSelector<IState, IAuthState>(
+  const { user } = useSelector<IState, IAuthState>(
     (state) => state.auth
   );
-
-  const [needToDrinkMore, setNeedToDrinkMore] = useState(false);
-
-  useEffect(() => {
-    api
-      .get("users/", { headers: { Authorization: `Bearer ${token}` } })
-      .then((response) => {
-        setNeedToDrinkMore(response.data.needToDrinkMore);
-      })
-      .catch((error) => {
-        dispatch(
-          alertRequest({
-            isDialog: true,
-            message:
-            error.response.data.message,
-            messageType: "danger",
-          })
-        );
-      });
-  }, []);
 
   function handleNavigateToLogin() {
     Alert.alert("Sair do login", "Deseja mesmo Sair?", [
@@ -79,7 +59,7 @@ function Profile() {
         <Text style={styles.infoText}>Seu peso: {user?.kilograms} Kg</Text>
         <Text style={styles.infoText}>
           {" "}
-          {needToDrinkMore ? "" : "Você ja bebeu o suficiente Hoje"}
+          {user?.needToDrinkMore ? "" : "Você ja bebeu o suficiente Hoje"}
         </Text>
       </View>
     </View>
@@ -125,7 +105,6 @@ const styles = StyleSheet.create({
   },
 
   infoText: {
-    fontFamily: "Archivo_700Bold",
     color: "#FF4500",
     fontSize: 20,
     fontWeight: "bold",

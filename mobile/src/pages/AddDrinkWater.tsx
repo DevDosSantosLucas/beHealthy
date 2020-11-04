@@ -100,57 +100,43 @@ function AddDrinkWater() {
   }
 
   return (
-    <View style={styles.window}>
-      <View style={styles.background} />
+    <View style={styles.container}>
+      <Text style={styles.title}>Quantos ml de água você tomou?</Text>
+      <Text style={styles.title}>(Clique em uma das opções)</Text>
 
-      <View style={styles.container}>
-        <Text style={styles.title}>Quantos ml de água você tomou?</Text>
-        <Text style={styles.title}>(Clique em uma das opções)</Text>
-
-        <View style={styles.itemsContainer}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
-          >
-            {milliliters.map((milliliter) => (
-              <TouchableOpacity
-                style={styles.item}
-                onPress={() => {
-                  handleAddDrinkWater(milliliter.ml);
-                }}
-                activeOpacity={0.4}
-                key={milliliter.ml}
-              >
-                <Text style={styles.itemTitle}>{milliliter.ml} ml</Text>
-                <Image source={milliliter.image} />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+      <View style={styles.itemsContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+        >
+          {milliliters.map((milliliter) => (
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => {
+                handleAddDrinkWater(milliliter.ml);
+              }}
+              activeOpacity={0.4}
+              key={milliliter.ml}
+            >
+              <Text style={styles.itemTitle}>{milliliter.ml} ml</Text>
+              <Image source={milliliter.image} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
-
-      <View style={styles.background} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  window: { flex: 1, backgroundColor: "rgba(52, 52, 52, 0.8)" },
-  backbutton: {
-    flex: 1,
-  },
-  background: {
-    flex: 1,
-  },
   container: {
-    borderWidth: 3,
-    borderColor: "#000",
-
+    borderWidth: 0,
     borderRadius: 15,
-    paddingTop: "5%",
-    paddingBottom: "5%",
     backgroundColor: "#15c3f9",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   button: {
@@ -159,16 +145,14 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "60%",
     borderRadius: 15,
-    backgroundColor: "#000",
     color: "#FF4500",
     fontWeight: "bold",
   },
   title: {
-    fontSize: 20,
-    fontFamily: "Nunito_400Regular",
-    // fontFamily: "Ubuntu_700Bold",
-    marginTop: 24,
+    padding: 10,
     color: "#FF4500",
+    fontSize: 28,
+    lineHeight: 40,
     fontWeight: "bold",
   },
 
@@ -184,7 +168,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 16,
     marginBottom: 32,
-    backgroundColor: "#000",
   },
 
   item: {

@@ -10,6 +10,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Platform } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,18 +19,13 @@ const AuthRoutes: React.FC = () => (
     tabBarOptions={{
       showLabel: false,
       style: {
-        elevation: 0,
-        height: "10%",
+        marginBottom: 20,
+        bottom: Platform.OS === 'ios' ? 16 : 0
       },
       tabStyle: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-      },
-      iconStyle: {
-        flex: 1,
-        width: 20,
-        height: 20,
       },
       inactiveBackgroundColor: "#fafafc",
       activeBackgroundColor: "ebebf5",
@@ -42,7 +38,7 @@ const AuthRoutes: React.FC = () => (
       component={AppStack}
       options={{
         tabBarIcon: ({ color }) => {
-          return <Ionicons name="ios-home" size={50} color={color} />;
+          return <Ionicons name="ios-home" size={60} color={color} />;
         },
       }}
     />
@@ -54,15 +50,8 @@ const AuthRoutes: React.FC = () => (
           return (
             <Entypo
               name="plus"
-              size={80}
+              size={60}
               color={color}
-              style={{
-                backgroundColor: "#696969",
-                borderRadius: 25,
-                borderWidth: 5,
-                borderColor: "#D3D3D3",
-                bottom: "100%",
-              }}
             />
           );
         },

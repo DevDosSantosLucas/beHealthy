@@ -53,25 +53,13 @@ function Dashboard() {
           <Text style={styles.infoText}>Seu peso: {user?.kilograms} Kg</Text>
 
           <Text style={styles.infoText}>Você já bebeu:</Text>
-          <View
-            style={{
-              justifyContent: "center",
-              alignSelf: "center",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.informationContainer}>
             <Text style={styles.textInfo}>
               {user?.quantityThatYouDrinked} ml
             </Text>
           </View>
           <Text style={styles.infoText}>Você precisa beber:</Text>
-          <View
-            style={{
-              justifyContent: "center",
-              alignSelf: "center",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.informationContainer}>
             <Text
               style={[
                 styles.textInfo,
@@ -109,9 +97,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: "Poppins_400Regular",
     padding: 10,
-    bottom: 50,
     color: "#FF4500",
     fontSize: 28,
     lineHeight: 40,
@@ -121,6 +107,10 @@ const styles = StyleSheet.create({
 
   box: {
     paddingTop: "30%",
+  },
+
+  informationContainer: {
+    paddingVertical: 16,
   },
 
   squareFrame: {
@@ -133,19 +123,15 @@ const styles = StyleSheet.create({
     bottom: "10%",
   },
   textInfo: {
-    width: "90%",
+    width: "100%",
     backgroundColor: "#708090",
     borderRadius: 8,
     padding: 24,
-    justifyContent: "center",
     fontSize: 20,
     fontWeight: "bold",
-    alignSelf: "center",
-    alignItems: "center",
   },
 
   infoText: {
-    fontFamily: "Archivo_700Bold",
     color: "#FF4500",
     fontSize: 20,
     fontWeight: "bold",
