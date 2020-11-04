@@ -11,9 +11,17 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 import api from "../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { alertRequest } from "../redux/modules/alerts/actions";
+import { IState } from "../redux";
+import { IAuthState } from "../redux/modules/auth/types";
+import { updateQuantityDrinked } from "../redux/modules/auth/actions";
 
 function AddDrinkWater() {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(0);
+  const { token } = useSelector<IState, IAuthState>((state) => state.auth);
   const milliliters = [
     {
       ml: 100,
@@ -48,37 +56,48 @@ function AddDrinkWater() {
       image: require("../images/800ml.png"),
     },
   ];
-  const [quantityThatYouDrinked, setQuantityThatYouDrinked] = useState(0);
 
-  useEffect(() => {
-    api.get("users/").then((response) => {
-      setQuantityThatYouDrinked(response.data.quantityThatYouDrinked);
-    });
-  }, []);
-
-  function handleAddDrinkWater(receiveQuantity: number) {
-    Alert.alert("Confirmar", `Deseja mesmo inserir ${receiveQuantity} ml ?`, [
+  function handleAddDrinkWater(receivedQuantity: number) {
+    Alert.alert("Confirmar", `Deseja mesmo inserir ${receivedQuantity} ml ?`, [
       {
         text: "Cancelar",
       },
       {
         text: "Sim",
         onPress() {
-          console.log(receiveQuantity);
-
-          setQuantity(receiveQuantity);
-          // setQuantityThatYouDrinked(receiveQuantity);
-
-          api.post("/drinks", {
-            quantity: receiveQuantity,
-          });
-          console.log(quantity);
-          navigate("Dashboard");
+          setQuantity(receivedQuantity);
+          api
+            .post(
+              "/drinks",
+              {
+                quantity: receivedQuantity,
+              },
+              { headers: { Authorization: `Bearer ${token}` } }
+            )
+            .then((response) => {
+              dispatch(
+                alertRequest({
+                  isDialog: true,
+                  messageType: "success",
+                  message: "Registro feito com sucesso",
+                })
+              );
+              dispatch(updateQuantityDrinked(receivedQuantity));
+              navigation.navigate("Dashboard");
+            })
+            .catch((error) => {
+              dispatch(
+                alertRequest({
+                  isDialog: true,
+                  messageType: "danger",
+                  message: error.response.data.message,
+                })
+              );
+            });
         },
       },
     ]);
   }
-  const { navigate } = useNavigation();
 
   return (
     <View style={styles.window}>

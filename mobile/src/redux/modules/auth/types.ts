@@ -6,6 +6,7 @@ export enum ActionTypes {
   logout = 'LOGOUT',
   loadUser = 'LOAD_USER',
   setLoading = 'AUTH_LOADING',
+  updateQuantityDrinked = 'UPDATE_QUANTITY_DRIKED'
 }
 
 export interface IAuthState {

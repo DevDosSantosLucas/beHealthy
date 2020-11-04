@@ -22,6 +22,8 @@ import getValidationErrors from "../utils/getValidationErrors";
 // import * as auth from "../services/auth";
 
 import api from "../services/api";
+import { useDispatch } from "react-redux";
+import { alertRequest } from "../redux/modules/alerts/actions";
 
 interface SignUpFormData {
   name: string;
@@ -32,6 +34,7 @@ interface SignUpFormData {
 
 export default function SignUp() {
   const formRef = useRef<FormHandles>(null);
+  const dispatch = useDispatch();
 
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
@@ -41,20 +44,14 @@ export default function SignUp() {
 
   const navigation = useNavigation();
 
-  const route = useRoute();
-
-
-  const { signed, user, signIn } = useAuth();
-  console.log(signed);
-  console.log(user);
-  console.log(signIn);
-
   const handleSignUp = useCallback(async (data: SignUpFormData) => {
     try {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        name: Yup.string().required("Nome Obrigatório").max(30, 'Máximo 30 caracteres'),
+        name: Yup.string()
+          .required("Nome Obrigatório")
+          .max(30, "Máximo 30 caracteres"),
         email: Yup.string()
           .email("Digite um e-mail válido")
           .required("Email obrigatório"),
@@ -68,23 +65,38 @@ export default function SignUp() {
           .required("Você precisa confirmar a nova senha")
           .oneOf([Yup.ref("password")], "As senhas precisam ser iguais"),
       });
-      console.log(data);
+
       await schema.validate(data, {
         abortEarly: false,
       });
-      
-      await api.post("/users", {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        kilograms: data.kilograms,
-      });
-      
-      // navigation.navigate("SignIn");
-      
-      signIn(data);
 
-      
+      await api
+        .post("/users", {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          kilograms: data.kilograms,
+        })
+        .catch((error) => {
+          dispatch(
+            alertRequest({
+              isDialog: true,
+              messageType: "danger",
+              message: error.response.data.message,
+            })
+          );
+        });
+
+      navigation.navigate("SignIn");
+
+      dispatch(
+        alertRequest({
+          message:
+            "Usuário cadastro com sucesso, por favor realize o seu login",
+          messageType: "success",
+          isDialog: true,
+        })
+      );
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -93,7 +105,13 @@ export default function SignUp() {
 
         return;
       }
-      console.log("Ocorreu algo errado");
+      dispatch(
+        alertRequest({
+          message: "Ocorreu um erro ao tentar se cadastrar, tente mais tarde.",
+          messageType: "danger",
+          isDialog: true,
+        })
+      );
     }
   }, []);
 

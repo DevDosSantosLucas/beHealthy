@@ -48,8 +48,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
     await AsyncStorage.setItem("@mobile:user", JSON.stringify(response.user));
     await AsyncStorage.setItem("@mobile:token", response.token);
-
-    console.log(response);
   }
 
   function signOut() {

@@ -6,21 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../redux";
 import { IAuthState } from "../redux/modules/auth/types";
 import { IAlertState } from "../redux/modules/alerts/types";
-import { showMessage } from 'react-native-flash-message';
+import { showMessage } from "react-native-flash-message";
 import { loadUser } from "../redux/modules/auth/actions";
 
-
 const Routes: React.FC = () => {
-  const { user } = useSelector<IState, IAuthState>(state => state.auth);
+  const { user } = useSelector<IState, IAuthState>((state) => state.auth);
 
   const dispatch = useDispatch();
-  const message = useSelector<IState, IAlertState>(state => state.alerts);
+  const message = useSelector<IState, IAlertState>((state) => state.alerts);
 
   useEffect(() => {
     if (message.isDialog) {
-      console.log('teste')
       showMessage({
-        message: 'Nova mensagem',
+        message: "Nova mensagem",
         description: message.message,
         type: message.messageType,
         floating: true,
@@ -32,6 +30,6 @@ const Routes: React.FC = () => {
     dispatch(loadUser());
   }, [dispatch]);
 
-  return user?.name ? <NavStack/>: <AuthStack />;
+  return user?.name ? <NavStack /> : <AuthStack />;
 };
 export default Routes;

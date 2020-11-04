@@ -33,6 +33,15 @@ export function loadUser() {
   };
 }
 
+export function updateQuantityDrinked(quantity: number){
+  return {
+    type: ActionTypes.updateQuantityDrinked,
+    payload: {
+      quantity,
+    },
+  };
+}
+
 export function setLoading(loading: boolean) {
   return {
     type: ActionTypes.setLoading,
