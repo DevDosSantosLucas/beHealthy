@@ -78,9 +78,7 @@ function Dashboard() {
             }}
           >
             <Text style={styles.infoText}>
-              {console.log(needToDrinkMore)}
               {user?.needToDrinkMore ? "" : "Você ja bebeu o suficiente Hoje"}
-              
             </Text>
           </View>
         </View>
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
     color: "#FF4500",
     fontSize: 28,
     lineHeight: 40,
-    marginTop: 80,
     fontWeight: "bold",
   },
 

@@ -18,19 +18,16 @@ const AuthRoutes: React.FC = () => (
   <Tab.Navigator
     tabBarOptions={{
       showLabel: false,
-      style: {  
-        marginBottom: Platform.OS === 'ios' ? 20: 0,
-        bottom: Platform.OS === 'ios' ? 16 : 0,
-        height: Platform.OS === 'ios' ?  0: '10%'
-        
+      style: {
+        marginBottom: Platform.OS === "ios" ? 20 : 0,
+        bottom: Platform.OS === "ios" ? 16 : 0,
+        height: Platform.OS === "ios" ? '10%' : "10%",
       },
       tabStyle: {
-        paddingBottom:Platform.OS === 'ios' ?  0: '10%',
+        paddingBottom: Platform.OS === "ios" ? 0 : "10%",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        
-        
       },
       inactiveBackgroundColor: "#fafafc",
       activeBackgroundColor: "ebebf5",
@@ -43,7 +40,9 @@ const AuthRoutes: React.FC = () => (
       component={AppStack}
       options={{
         tabBarIcon: ({ color }) => {
-          return <Ionicons name="ios-home" size={60} color={color} style={{}} />;
+          return (
+            <Ionicons name="ios-home" size={60} color={color} style={{}} />
+          );
         },
       }}
     />
@@ -52,13 +51,7 @@ const AuthRoutes: React.FC = () => (
       component={AddDrinkWater}
       options={{
         tabBarIcon: ({ color }) => {
-          return (
-            <Entypo
-              name="plus"
-              size={60}
-              color={color}
-            />
-          );
+          return <Entypo name="plus" size={60} color={color} />;
         },
       }}
     />

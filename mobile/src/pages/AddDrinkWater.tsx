@@ -154,15 +154,11 @@ const styles = StyleSheet.create({
   description: {
     color: "#000",
     fontSize: 16,
-    // marginTop: 4,
     fontFamily: "Nunito_400Regular",
-    // fontWeight: "bold",
   },
   itemsContainer: {
     flexDirection: "row",
     padding: 10,
-    // marginTop: 16,
-    // marginBottom: 32,
   },
 
   item: {
@@ -181,13 +177,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   squareFrame: {
-    paddingTop: "20%",
-    // margin: 10,
-    // padding: "10%",
+    padding: 16,
     borderRadius: 25,
     opacity: 0.8,
     backgroundColor: "#FFFF",
-    // bottom: "10%",
+    alignItems: "center",
   },
 
   itemTitle: {

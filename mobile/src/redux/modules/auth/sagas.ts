@@ -16,7 +16,13 @@ function* auth({ payload }: AuthRequest) {
 
   try {
     const authResponse: AxiosResponse<IAuthState> = yield call(() =>
-      api.post("users/sessions", { email, password })
+      api.post(
+        "users/sessions",
+        { email, password },
+        {
+          timeout: 10000,
+        }
+      )
     );
 
     yield put(setLoading(false));
@@ -28,6 +34,15 @@ function* auth({ payload }: AuthRequest) {
       })
     );
   } catch (error) {
+    if (error.code == "ECONNABORTED"){
+      yield put(
+        alertRequest({
+          message: "Sem comunicação com o servidor. Tente mais tarde",
+          messageType: "danger",
+          isDialog: true,
+        })
+      );
+    }
     yield put(setLoading(false));
     yield put(
       alertRequest({

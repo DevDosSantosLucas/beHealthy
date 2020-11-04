@@ -10,7 +10,7 @@ export interface IUser {
   kilograms: number;
   quantityThatYouDrinked: number;
   quantityThatYouNeedToDrink: number;
-  needToDrinkMore: number;
+  needToDrinkMore: boolean;
 }
 
 

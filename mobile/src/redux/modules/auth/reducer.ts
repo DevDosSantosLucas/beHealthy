@@ -45,12 +45,22 @@ const auth: Reducer<IAuthState> = (state = INITIAL_STATE, action) => {
       }
 
       case ActionTypes.updateQuantityDrinked: {
-        const { quantity } = action.payload;
+        if (draft.user) {
+          const { quantity } = action.payload;
+          const needToDrinkMore =
+            draft.user.quantityThatYouDrinked + quantity >=
+            draft.user.quantityThatYouNeedToDrink
+              ? false
+              : true;
 
-        draft.user = {
-          ...draft.user,
-          quantityThatYouDrinked: draft.user?.quantityThatYouDrinked + quantity,
-        } as IUser;
+          draft.user = {
+            ...draft.user,
+            quantityThatYouDrinked:
+              draft.user.quantityThatYouDrinked + quantity,
+            needToDrinkMore,
+          } as IUser;
+        }
+
         break;
       }
 
