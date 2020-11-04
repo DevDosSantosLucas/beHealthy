@@ -18,14 +18,19 @@ const AuthRoutes: React.FC = () => (
   <Tab.Navigator
     tabBarOptions={{
       showLabel: false,
-      style: {
-        marginBottom: 20,
-        bottom: Platform.OS === 'ios' ? 16 : 0
+      style: {  
+        marginBottom: Platform.OS === 'ios' ? 20: 0,
+        bottom: Platform.OS === 'ios' ? 16 : 0,
+        height: Platform.OS === 'ios' ?  0: '10%'
+        
       },
       tabStyle: {
+        paddingBottom:Platform.OS === 'ios' ?  0: '10%',
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        
+        
       },
       inactiveBackgroundColor: "#fafafc",
       activeBackgroundColor: "ebebf5",
@@ -38,7 +43,7 @@ const AuthRoutes: React.FC = () => (
       component={AppStack}
       options={{
         tabBarIcon: ({ color }) => {
-          return <Ionicons name="ios-home" size={60} color={color} />;
+          return <Ionicons name="ios-home" size={60} color={color} style={{}} />;
         },
       }}
     />

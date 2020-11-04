@@ -23,8 +23,8 @@ import FlashMessage from "react-native-flash-message";
 
 const App: React.FC = () => {
   const [fontsLoaded] = useFonts({
-    Nunito_600SemiBold,
-    Nunito_700Bold,
+    // Nunito_600SemiBold,
+    // Nunito_700Bold,
     Nunito_800ExtraBold,
     Nunito_400Regular
   });

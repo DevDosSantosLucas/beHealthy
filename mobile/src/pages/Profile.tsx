@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: "Poppins_400Regular",
     padding: 10,
     bottom: 50,
     color: "#FF4500",

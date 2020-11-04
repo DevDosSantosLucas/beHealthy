@@ -1,15 +1,13 @@
 import { useAuth } from "../contexts/auth";
 
 // import Logo from '../images/Be-Healthy.png';
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback,  useRef} from "react";
 import {
   ScrollView,
   View,
   StyleSheet,
-  Switch,
   Text,
   TextInput,
-  TouchableOpacity,
   Image,
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
@@ -156,23 +154,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  title: {
-    color: "#5c8599",
-    fontSize: 24,
-    // fontFamily: "Nunito_700Bold",
-    marginBottom: 32,
-    paddingBottom: 24,
-    borderBottomWidth: 0.8,
-    borderBottomColor: "#D3E2E6",
-  },
-
-  label: {
-    color: "#8fa7b3",
-    // fontFamily: "Nunito_600SemiBold",
-    marginBottom: 8,
-  },
-
   input: {
     backgroundColor: "#fff",
     borderWidth: 1.4,
@@ -183,13 +164,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 16,
     textAlignVertical: "top",
-  },
-
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 16,
   },
 
   nextButtonIn: {
@@ -207,10 +181,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 56,
     marginTop: 32,
+    
   },
 
   nextButtonText: {
-    // fontFamily: "Nunito_800ExtraBold",
+    fontFamily: "Nunito_800ExtraBold",
     fontSize: 16,
     color: "#FFF",
   },

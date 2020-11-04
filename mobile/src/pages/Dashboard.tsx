@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useAuth } from "../contexts/auth";
 import { IState } from "../redux";
 import { alertRequest } from "../redux/modules/alerts/actions";
 import { IAuthState } from "../redux/modules/auth/types";
@@ -79,8 +78,9 @@ function Dashboard() {
             }}
           >
             <Text style={styles.infoText}>
-              {" "}
+              {console.log(needToDrinkMore)}
               {user?.needToDrinkMore ? "" : "Você ja bebeu o suficiente Hoje"}
+              
             </Text>
           </View>
         </View>

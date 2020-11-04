@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
-  ScrollView,
+  ScrollView, Platform
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -101,15 +101,17 @@ function AddDrinkWater() {
 
   return (
     <View style={styles.container}>
+      <View style = {styles.squareFrame}>
       <Text style={styles.title}>Quantos ml de água você tomou?</Text>
-      <Text style={styles.title}>(Clique em uma das opções)</Text>
+      <Text style={styles.description}>(Clique em uma das opções)</Text>
 
       <View style={styles.itemsContainer}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
+          contentContainerStyle={{ paddingHorizontal: 10  }}
         >
+          
           {milliliters.map((milliliter) => (
             <TouchableOpacity
               style={styles.item}
@@ -123,7 +125,9 @@ function AddDrinkWater() {
               <Image source={milliliter.image} />
             </TouchableOpacity>
           ))}
+         
         </ScrollView>
+      </View>
       </View>
     </View>
   );
@@ -131,25 +135,16 @@ function AddDrinkWater() {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 0,
-    borderRadius: 15,
     backgroundColor: "#15c3f9",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-
-  button: {
-    justifyContent: "flex-start",
-    padding: 10,
-    marginLeft: "5%",
-    marginRight: "60%",
-    borderRadius: 15,
-    color: "#FF4500",
-    fontWeight: "bold",
+    paddingTop: Platform.OS === 'ios' ?  0: '40%',
+    paddingBottom: Platform.OS === 'ios' ?  0: '10%',
+    paddingHorizontal:Platform.OS === 'ios' ?  0: 10,
   },
   title: {
-    padding: 10,
+    paddingHorizontal: 10,
     color: "#FF4500",
     fontSize: 28,
     lineHeight: 40,
@@ -157,40 +152,49 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    color: "#6C6C80",
+    color: "#000",
     fontSize: 16,
-    marginTop: 4,
+    // marginTop: 4,
     fontFamily: "Nunito_400Regular",
-    fontWeight: "bold",
+    // fontWeight: "bold",
   },
   itemsContainer: {
     flexDirection: "row",
     padding: 10,
-    marginTop: 16,
-    marginBottom: 32,
+    // marginTop: 16,
+    // marginBottom: 32,
   },
 
   item: {
     backgroundColor: "#fff",
     borderWidth: 2,
     borderColor: "#15c3f9",
-    height: 150,
-    width: 150,
+    height: 140,
+    width: 140,
     borderRadius: 8,
     paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 16,
     marginRight: 8,
     alignItems: "center",
     justifyContent: "space-between",
-
     textAlign: "center",
+  },
+  squareFrame: {
+    paddingTop: "20%",
+    // margin: 10,
+    // padding: "10%",
+    borderRadius: 25,
+    opacity: 0.8,
+    backgroundColor: "#FFFF",
+    // bottom: "10%",
   },
 
   itemTitle: {
     fontFamily: "Nunito_400Regular",
     textAlign: "center",
-    fontSize: 13,
+    fontSize: 18,
+    color:'#15c3f9'
   },
 });
 
