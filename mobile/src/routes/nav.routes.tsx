@@ -20,7 +20,7 @@ const AuthRoutes: React.FC = () => (
       showLabel: false,
       style: {
         marginBottom: 20,
-        bottom: Platform.OS === 'ios' ? 16 : 0
+        bottom: 16
       },
       tabStyle: {
         flexDirection: "row",
