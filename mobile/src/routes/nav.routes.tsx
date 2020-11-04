@@ -18,17 +18,11 @@ const AuthRoutes: React.FC = () => (
   <Tab.Navigator
     tabBarOptions={{
       showLabel: false,
-<<<<<<< HEAD
       style: {  
         marginBottom: Platform.OS === 'ios' ? 20: 0,
         bottom: Platform.OS === 'ios' ? 16 : 0,
         height: Platform.OS === 'ios' ?  0: '10%'
         
-=======
-      style: {
-        marginBottom: 20,
-        bottom: 16
->>>>>>> d74fddee7489773f71f09aec00c2a3bf51e95e44
       },
       tabStyle: {
         paddingBottom:Platform.OS === 'ios' ?  0: '10%',
