@@ -36,7 +36,6 @@ export const TextInput = styled.TextInput`
   flex: 1;
   color: #5e5e5e;
   font-size: 16px;
-  font-family: 'Roboto-Regular';
 `;
 
 export const Icon = styled(FeatherIcon)`
